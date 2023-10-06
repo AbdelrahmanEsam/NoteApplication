@@ -21,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -38,7 +39,6 @@ import com.example.noteapplication.android.presentation.components.HidableInputT
 import com.example.noteapplication.android.presentation.components.NoteItem
 import com.example.noteapplication.presentation.notes.NotesIntents
 import com.example.noteapplication.presentation.notes.NotesViewModel
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -52,9 +52,17 @@ fun NotesScreen(
     val state by viewModel.notesState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val notesListState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
 
 
+    LaunchedEffect(Unit) {
+        viewModel
+            .scrollUp
+            .collect { scrollUp ->
+                if (scrollUp) {
+                    notesListState.animateScrollToItem(0)
+                }
+            }
+    }
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {

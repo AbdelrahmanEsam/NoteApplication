@@ -7,7 +7,9 @@ import com.example.noteapplication.domain.usecase.InsertNoteUseCase
 import com.example.noteapplication.utils.DateTimeUtil
 import com.example.noteapplication.utils.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -24,6 +26,9 @@ class NotesViewModel(
     private val _notesState: MutableStateFlow<NotesStates.NotesState> =
         MutableStateFlow(NotesStates.NotesState())
     val notesState = _notesState.asStateFlow()
+
+    private val _scrollUp: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val scrollUp = _scrollUp.asSharedFlow()
 
 
     fun onEvent(intent: NotesIntents) {
@@ -66,6 +71,7 @@ class NotesViewModel(
                         .contains(search)
                 })
             }
+            _scrollUp.emit(true)
         }
     }
 
