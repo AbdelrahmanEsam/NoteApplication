@@ -6,7 +6,7 @@ import kotlinx.coroutines.cancel
 actual abstract class ViewModel {
     actual  val viewModelScope = MainScope()
 
-    protected actual  fun onCleared() {
+    protected actual open fun onCleared() {
 
     }
 

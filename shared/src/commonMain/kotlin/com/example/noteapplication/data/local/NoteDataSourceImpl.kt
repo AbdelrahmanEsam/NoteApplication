@@ -5,7 +5,6 @@ import com.example.noteapplication.data.dto.NoteDto
 import com.example.noteapplication.data.mappers.toNote
 import com.example.noteapplication.database.Database
 import com.example.noteapplication.utils.DateTimeUtil
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
