@@ -1,6 +1,6 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.library")
     id("app.cash.sqldelight") version "2.0.0"
     id("kotlin-parcelize")
@@ -22,17 +22,24 @@ kotlin {
 
     listOf(
         iosX64(),
+        ios(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+    )
+
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
             baseName = "shared"
+            export(project(":shared"))
         }
     }
 
-
     sourceSets {
-        targetHierarchy.default()
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.datetime)
@@ -45,31 +52,26 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
 
-            //    ksp(libs.koin.ksp)
+                //    ksp(libs.koin.ksp)
             }
         }
 
         val androidMain by getting {
             dependencies {
+
                 implementation(libs.android.driver)
                 implementation(libs.koin.android)
                 implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
 
         val iosMain by getting {
             dependencies {
                 implementation(libs.native.driver)
             }
-
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
         }
     }
 
