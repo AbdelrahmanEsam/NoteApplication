@@ -14,7 +14,7 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
@@ -31,7 +31,7 @@ kotlin {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
-        ios.deploymentTarget = "14.1"
+        ios.deploymentTarget = "15"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
@@ -40,6 +40,7 @@ kotlin {
     }
 
     sourceSets {
+        targetHierarchy.default()
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.datetime)
@@ -97,5 +98,10 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 24
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
