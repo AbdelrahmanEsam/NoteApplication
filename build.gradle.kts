@@ -1,12 +1,10 @@
 plugins {
     //trick: for the same plugin versions in all sub-modules
-    id("com.android.application").version("8.1.2").apply(false)
-    id("com.android.library").version("8.1.2").apply(false)
-    kotlin("android").version("1.9.10").apply(false)
-    kotlin("multiplatform").version("1.9.10").apply(false)
+    alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.com.android.library) apply false
+    kotlin("android").version(libs.versions.kotlinVersion) apply false
+    kotlin("multiplatform").version(libs.versions.kotlinVersion) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.ksp) apply false
-}
-
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+    alias(libs.plugins.app.cash.sqldelight) apply false
 }

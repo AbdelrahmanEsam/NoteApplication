@@ -1,17 +1,15 @@
 plugins {
     kotlin("multiplatform")
-    kotlin("native.cocoapods")
-    id("com.android.library")
-    id("app.cash.sqldelight") version "2.0.0"
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.app.cash.sqldelight)
+    alias(libs.plugins.touchlab.skie)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
 
-    android {
+    androidTarget {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "17"
@@ -22,62 +20,43 @@ kotlin {
 
     listOf(
         iosX64(),
-        ios(),
         iosArm64(),
         iosSimulatorArm64()
-    )
-
-    cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        version = "1.0"
-        ios.deploymentTarget = "15"
-        podfile = project.file("../iosApp/Podfile")
-        framework {
+    ).forEach {
+        it.binaries.framework {
             baseName = "shared"
-            export(project(":shared"))
+            isStatic = true
         }
     }
 
+
+
     sourceSets {
-        targetHierarchy.default()
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.sqldelight.coroutines.extensions)
-                implementation(libs.koin.core)
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-
-                //    ksp(libs.koin.ksp)
-            }
+        commonMain.dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.sqldelight.coroutines.extensions)
+            implementation(libs.koin.core)
         }
 
-        val androidMain by getting {
-            dependencies {
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
 
-                implementation(libs.android.driver)
-                implementation(libs.koin.android)
-                implementation(libs.androidx.lifecycle.viewmodel.ktx)
-
-            }
+        androidMain.dependencies {
+            implementation(libs.android.driver)
+            implementation(libs.koin.android)
+            implementation(libs.androidx.lifecycle.viewmodel.ktx)
         }
 
 
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.native.driver)
-            }
-            dependsOn(commonMain)
+        iosMain.dependencies {
+            implementation(libs.native.driver)
         }
     }
 
     ksp {
-        arg("KOIN_CONFIG_CHECK","true")
+        arg("KOIN_CONFIG_CHECK", "true")
     }
 }
 
@@ -86,9 +65,7 @@ sqldelight {
         create("Database") {
             packageName.set("com.example.noteapplication.database")
         }
-
     }
-
 }
 
 

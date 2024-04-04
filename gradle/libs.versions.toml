@@ -1,24 +1,31 @@
 [versions]
-activity-compose = "1.8.0"
-agp = "8.1.2"
-androidx-material = "1.5.3"
-foundation = "1.5.3"
+activity-compose = "1.8.2"
+composeCompiler = "1.5.11"
+agp = "8.3.1"
+androidx-material = "1.6.5"
+foundation = "1.6.5"
 koin = "3.5.0"
-kotlinx-coroutines-core = "1.7.3"
+kotlinx-coroutines-core = "1.8.0"
 kotlinx-datetime = "0.4.1"
-lifecycle-viewmodel-ktx = "2.6.2"
-navigation-compose = "2.7.4"
-org-jetbrains-kotlin-android = "1.9.0"
+lifecycle-viewmodel-ktx = "2.7.0"
+navigation-compose = "2.7.7"
+org-jetbrains-kotlin-android = "1.9.23"
 core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
-material = "1.10.0"
+material = "1.11.0"
 sqlite-driver = "2.0.0"
-ui = "1.5.3"
-kotlin = "1.9.10"
-ksp = "1.9.10-1.0.13"
+ui = "1.6.5"
+kotlinVersion = "1.9.23"
+kotlinParcelize = "1.9.22"
+sqldelight = "2.0.0"
+ksp = "1.9.23-1.0.19"
+androidNavigation = "2.7.7"
+skie = "0.6.2"
+
+
 
 [libraries]
 android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlite-driver" }
@@ -46,12 +53,18 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlite-driver" }
 sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlite-driver" }
-androidx-lifecycle-runtime-compose= {group = "androidx.lifecycle",name = "lifecycle-runtime-compose"}
-androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version = "2.7.4" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose" }
+androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version = "androidNavigation" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+kotlin-multiplatform = { id = "multiplatform", version.ref = "kotlinVersion" }
+kotlin-android = { id = "android", version.ref = "kotlinVersion" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlinParcelize" }
+app-cash-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+touchlab-skie = { id = "co.touchlab.skie", version.ref = "skie" }
 [bundles]
 

@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.ksp)
     kotlin("android")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -18,7 +18,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packaging {
         resources {
